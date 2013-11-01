@@ -33,3 +33,4 @@ Future Functionality:
 - Issue UPNP request to open telnet to public access, then get telnet shell
 - Check retrieved hashes for known default hash values (888888, 666666, admin, etc)
 - Identify DVR password hash mechanism for cracking in JTR
+- Stabalize across Dahua versions
