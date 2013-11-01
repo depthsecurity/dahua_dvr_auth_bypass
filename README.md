@@ -5,6 +5,12 @@ Dahua CCTV DVR Authentication Bypass Metasploit Scanning Module
 
 This is a Metasploit module that scans for and exploits Dahua and Dahua rebranded CCTV DVRs.
 
+Installation:
+
+- git clone https://github.com/depthsecurity/dahua_dvr_auth_bypass.git
+- Copy dahua_dvr_auth_bypass.rb file to Metasploit modules directory 
+  (e.g. /root/.msf4/modules/auxiliary/scanner/misc/dahua_dvr_auth_bypass.rb)
+
 Standard Functionality Includes:
 
 - It's a scanning module so obviously it can handle one or more IP addresses to identify DVRs on large networks
