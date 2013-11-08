@@ -65,7 +65,6 @@ class Metasploit3 < Msf::Auxiliary
 			connect()
 			sock.put(version)
 			data = sock.get(1024)
-			print data
 			if data =~ /[\x00]{8,}([[:print:]]+)/
 				ver = $1
 				print_status("Version: #{ver} @ #{rhost}:#{rport}!")
